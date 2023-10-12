@@ -1,5 +1,11 @@
+const style = {
+  padding: '20px 40px',
+  borderBottom: '1px solid lightgrey',
+  fontFamily: 'arial'
+}
+
 const Blog = ({ blog }) => (
-  <div>
+  <div style={style}>
     {blog.title} {blog.author}
   </div>  
 )
