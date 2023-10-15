@@ -1,0 +1,45 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'arial';
+  background-color: #fafafa;
+}
+
+button, input[type=submit] {
+  outline: none;
+  background-color: #454545;
+  color: #fff;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 100px;
+}
+
+button:hover, input[type=submit]:hover {
+  background-color: #232323;
+}
+
+button.primary, input[type=submit].primary {
+  background-color: #454E9E;
+}
+
+button.primary:hover, input[type=submit].primary:hover {
+  background-color: #5a65cf;
+}
+
+button.danger, input[type=submit].danger {
+  background-color: #BF1A2F;
+}
+
+button.secondary, input[type=submit].secondary {
+  background-color: transparent;
+  color: #5a5a5a;
+  border: 1px solid #5a5a5a;
+}
+
+button.secondary:hover, input[type=submit].secondary:hover {
+  color: #000000;
+  border: 1px solid #292929;
+}

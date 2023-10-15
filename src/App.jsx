@@ -1,16 +1,19 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
-import blogService from './services/blogs'
+import BlogForm from './components/BlogForm'
+import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import loginService from './services/login'
+import blogService from './services/blogs'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [blogTitle, setBlogTitle] = useState('')
-  const [blogAuthor, setBlogAuthor] = useState('')
-  const [blogUrl, setBlogUrl] = useState('')
+  const [notification, setNotification] = useState()
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -40,7 +43,10 @@ const App = () => {
       blogService.setToken(user.token)
       setUser(user)
     } catch (exception) {
-      console.log(exception)
+      setNotification({ type:'error', message:'Wrong Username or Password' })
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
     }
   }
 
@@ -49,18 +55,17 @@ const App = () => {
     setUser(null)
   }
 
-  const handleBlogSubmit = async (e) => {
-    e.preventDefault()
+  const addBlog = async (blog) => {
     blogService.setToken(user.token)
-    const newBlog = await blogService.create({
-      author: blogAuthor,
-      title: blogTitle,
-      url: blogUrl
-    })
-    console.log(newBlog)
+    const newBlog = await blogService.create(blog)
     setBlogs([...blogs, newBlog])
+    setNotification({ type:'success', message: `Save Successful: "${newBlog.title}" by ${newBlog.author}` })
+    setTimeout(() => {
+      setNotification(null)
+    }, 5000)
+    console.log(blogFormRef.current)
+    blogFormRef.current.toggleVisibility()
   }
-
 
   const loginForm = () => {
     return (
@@ -75,39 +80,36 @@ const App = () => {
             <label>Password</label>
             <input type ="password" value={password} onChange={(e) => handleInputChange(e, setPassword)} />
           </div>
-          <input type="submit" />
+          <input type="submit" className='primary' value='Login'/>
         </form>
       </>
     )
   }
-  
-  const blogForm = () => {
+
+  const userInfo = () => {
+    const userInfoStyle = {
+      marginBottom: 30,
+      padding: '15px 30px',
+      boxShadow: '1px 3px 2px -1px rgba(0,0,0,0.4)',
+      backgroundColor: '#c8c8c8'
+    }
     return (
-    <>
-      <h3>Submit new Blog as {user.username} </h3>
-      <form onSubmit={handleBlogSubmit}>
-        <div>
-          <label>Title</label>
-          <input onChange={(e) => handleInputChange(e, setBlogTitle)} />
-        </div>
-        <div>
-          <label>Author</label>
-          <input onChange={(e) => handleInputChange(e, setBlogAuthor)} />        
-        </div>
-        <div>
-          <label>URL</label>
-          <input onChange={(e) => handleInputChange(e, setBlogUrl)} />        
-        </div>
-        <input type="submit" />
-      </form>
-    </>
+      <div style={userInfoStyle}>
+        <p>Logged in as <strong>{ user.username }</strong> { user.name ? ` (${user.name})` : null }</p>
+        <button className='secondary' onClick={handleLogout}>Log out</button>
+      </div>
     )
   }
 
+  const blogForm = () => (
+    <Togglable buttonLabel='Create new Blog' ref={blogFormRef}>
+      <BlogForm user={user} addBlog={addBlog} />
+    </Togglable>
+  )
+
+
   const blogList = () => (
     <>
-      <p>Logged in as <strong>{ user.username }</strong> { user.name ? ` (${user.name})` : null }</p>
-      <button onClick={handleLogout}>Log out</button>
       <h2>blogs</h2>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
@@ -115,13 +117,21 @@ const App = () => {
     </>
   )
 
+  const appStyle = {
+    width: 960,
+    margin: '0 auto',
+    backgroundColor: '#ffffff',
+  }
+
   return (
-    <div>
+    <div style={appStyle}>
+      { user && userInfo() }
+      { notification && <Notification notification={notification} /> }
       {
         user 
           ? <>
-            {blogForm()}
-            {blogList()}
+            { blogForm() }
+            { blogList() }
             </>
           : loginForm()
       }
