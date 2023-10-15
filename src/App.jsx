@@ -58,7 +58,9 @@ const App = () => {
   const addBlog = async (blog) => {
     blogService.setToken(user.token)
     const newBlog = await blogService.create(blog)
+    newBlog.user = user
     setBlogs([...blogs, newBlog])
+  
     setNotification({ type:'success', message: `Save Successful: "${newBlog.title}" by ${newBlog.author}` })
     setTimeout(() => {
       setNotification(null)
