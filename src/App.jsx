@@ -39,7 +39,6 @@ const App = () => {
 
     try {
       const user = await loginService.login({ username, password })
-
       window.localStorage.setItem('blogAppUser', JSON.stringify(user))
       blogService.setToken(user.token)
       setUser(user)
@@ -75,6 +74,14 @@ const App = () => {
   const updateLikes = async (blog) => {
     const updatedBlog = await blogService.update(blog)
     setBlogs(blogs.map( b => b.id !== updatedBlog.id ? b : updatedBlog ))
+  }
+
+  const deleteBlog = async (id) => {
+    blogService.setToken(user.token)
+    const response = await blogService.remove(id)
+    if (response.status === 204) {
+      setBlogs(blogs.filter(b => b.id !== id))
+    }
   }
 
   const loginForm = () => {
@@ -123,7 +130,13 @@ const App = () => {
       <h2>blogs</h2>
       <div><button className='secondary' onClick={sortByLikes}>Sort by Likes</button></div>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} updateLikes={updateLikes} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          updateLikes={updateLikes}
+          userId={user.id}
+          deleteBlog={deleteBlog}
+        />
       )}
     </>
   )

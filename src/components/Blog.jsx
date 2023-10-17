@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 
-const Blog = ({ blog, updateLikes }) => {
+const Blog = ({ blog, updateLikes, deleteBlog, userId }) => {
   const [showDetails, setShowDetails] = useState(false)
 
   const toggleDetails = () => {
@@ -10,6 +10,12 @@ const Blog = ({ blog, updateLikes }) => {
 
   const incrementLikes = () => {
     updateLikes({ ...blog, likes: blog.likes + 1 })
+  }
+
+  const handleDelete = () => {
+    if(window.confirm(`You are about to delete ${blog.title} by ${blog.author}`)) {
+      deleteBlog(blog.id)
+    }
   }
 
   const containerStyle = {
@@ -55,6 +61,7 @@ const Blog = ({ blog, updateLikes }) => {
         <div>
           <span style={likesStyle}>Saved by {blog.user.name}</span>
         </div>
+        { blog.user.id === userId && <button className='danger' onClick={handleDelete}>Delete</button>  }
       </>
     )
   }
