@@ -56,6 +56,10 @@ const App = () => {
     setUser(null)
   }
 
+  const sortByLikes = () => {
+    setBlogs([...blogs].sort((a, b) => b.likes - a.likes))
+  }
+
   const addBlog = async (blog) => {
     blogService.setToken(user.token)
     const newBlog = await blogService.create(blog)
@@ -117,6 +121,7 @@ const App = () => {
   const blogList = () => (
     <>
       <h2>blogs</h2>
+      <div><button className='secondary' onClick={sortByLikes}>Sort by Likes</button></div>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} updateLikes={updateLikes} />
       )}
