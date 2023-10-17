@@ -16,9 +16,10 @@ const App = () => {
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    (async () => {
+      const blogs = await blogService.getAll()
+      setBlogs(blogs)
+    })()
   }, [])
 
   useEffect(() => {
@@ -59,14 +60,17 @@ const App = () => {
     blogService.setToken(user.token)
     const newBlog = await blogService.create(blog)
     newBlog.user = user
-    setBlogs([...blogs, newBlog])
-  
+    setBlogs([...blogs, newBlog]) 
     setNotification({ type:'success', message: `Save Successful: "${newBlog.title}" by ${newBlog.author}` })
     setTimeout(() => {
       setNotification(null)
     }, 5000)
-    console.log(blogFormRef.current)
     blogFormRef.current.toggleVisibility()
+  }
+
+  const updateLikes = async (blog) => {
+    const updatedBlog = await blogService.update(blog)
+    setBlogs(blogs.map( b => b.id !== updatedBlog.id ? b : updatedBlog ))
   }
 
   const loginForm = () => {
@@ -114,7 +118,7 @@ const App = () => {
     <>
       <h2>blogs</h2>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} updateLikes={updateLikes} />
       )}
     </>
   )

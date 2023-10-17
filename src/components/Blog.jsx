@@ -1,11 +1,15 @@
 import { useState } from "react"
 
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, updateLikes }) => {
   const [showDetails, setShowDetails] = useState(false)
 
   const toggleDetails = () => {
     setShowDetails(!showDetails)
+  }
+
+  const incrementLikes = () => {
+    updateLikes({ ...blog, likes: blog.likes + 1 })
   }
 
   const containerStyle = {
@@ -46,7 +50,7 @@ const Blog = ({ blog }) => {
         </div>
         <div>
           <span style={likesStyle}>{blog.likes} Likes.</span>
-          <button className="secondary">Like</button>
+          <button className="secondary" onClick={incrementLikes}>Like</button>
         </div>
         <div>
           <span style={likesStyle}>Saved by {blog.user.name}</span>

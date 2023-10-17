@@ -3,13 +3,12 @@ const baseUrl = '/api/blogs'
 
 let token = null
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
-}
-
 const setToken = (newToken) => {
   token = newToken
+}
+const getAll = async () => {
+  const response = await axios.get(baseUrl)
+  return response.data
 }
 
 const create = async (blog) => {
@@ -24,4 +23,15 @@ const create = async (blog) => {
   }
 }
 
-export default { getAll, create, setToken }
+const update = async (blog) => {
+  blog.user = blog.user.id
+  try {
+    const response = await axios.put(`/api/blogs/${blog.id}`, blog)
+    return response.data
+
+  } catch (exception) {
+    console.log(exception)
+  }
+}
+
+export default { setToken, getAll, create, update }
