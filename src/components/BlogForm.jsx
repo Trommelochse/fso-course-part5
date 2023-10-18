@@ -42,15 +42,30 @@ const BlogForm = ({ user, addBlog }) => {
       <form onSubmit={handleBlogSubmit} style={formStyle}>
         <div>
           <label style={labelStyle}>Title</label>
-          <input onChange={(e) => handleInputChange(e, setTitle)} value={title} style={inputStyle}/>
+          <input
+            onChange={(e) => handleInputChange(e, setTitle)}
+            value={title}
+            style={inputStyle}
+            placeholder='Enter title'
+          />
         </div>
         <div>
           <label style={labelStyle}>Author</label>
-          <input onChange={(e) => handleInputChange(e, setAuthor)} value={author} style={inputStyle}/>
+          <input
+            onChange={(e) => handleInputChange(e, setAuthor)}
+            value={author}
+            style={inputStyle}
+            placeholder='Enter author'
+          />
         </div>
         <div>
           <label style={labelStyle}>URL</label>
-          <input onChange={(e) => handleInputChange(e, setUrl)} value={url} style={inputStyle}/>
+          <input
+            onChange={(e) => handleInputChange(e, setUrl)}
+            value={url}
+            style={inputStyle}
+            placeholder='Enter URL'
+          />
         </div>
         <input type="submit" className='primary' />
       </form>

@@ -50,9 +50,6 @@ const Blog = ({ blog, updateLikes, deleteBlog, userId }) => {
     return (
       <>
         <div>
-          <span style={authorStyle}>by {blog.author}</span>
-        </div>
-        <div>
           <span><a href={blog.url}>{blog.url}</a></span>
         </div>
         <div>
@@ -72,6 +69,9 @@ const Blog = ({ blog, updateLikes, deleteBlog, userId }) => {
       <div style={titleContainerStyle}>
         <span style={titleStyle}>{blog.title}</span>
         <button onClick={toggleDetails}>{ showDetails ? 'Show less' : 'Show more' }</button>
+      </div>
+      <div>
+        <span style={authorStyle}>by {blog.author}</span>
       </div>
       { showDetails && blogDetails() }
     </div>
