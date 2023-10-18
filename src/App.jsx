@@ -11,7 +11,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [notification, setNotification] = useState()
+  const [notification, setNotification] = useState(null)
 
   const blogFormRef = useRef()
 
@@ -63,7 +63,7 @@ const App = () => {
     blogService.setToken(user.token)
     const newBlog = await blogService.create(blog)
     newBlog.user = user
-    setBlogs([...blogs, newBlog]) 
+    setBlogs([...blogs, newBlog])
     setNotification({ type:'success', message: `Save Successful: "${newBlog.title}" by ${newBlog.author}` })
     setTimeout(() => {
       setNotification(null)
@@ -152,11 +152,11 @@ const App = () => {
       { user && userInfo() }
       { notification && <Notification notification={notification} /> }
       {
-        user 
+        user
           ? <>
             { blogForm() }
             { blogList() }
-            </>
+          </>
           : loginForm()
       }
     </div>

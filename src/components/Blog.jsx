@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useState } from 'react'
+import PropTypes from 'prop-types'
 
 
 const Blog = ({ blog, updateLikes, deleteBlog, userId }) => {
@@ -33,7 +34,7 @@ const Blog = ({ blog, updateLikes, deleteBlog, userId }) => {
     fontSize: 18,
     fontWeight: 700
   }
-  
+
   const authorStyle = {
     fontSize: 12,
     fontFamily: 'serif',
@@ -73,8 +74,15 @@ const Blog = ({ blog, updateLikes, deleteBlog, userId }) => {
         <button onClick={toggleDetails}>{ showDetails ? 'Show less' : 'Show more' }</button>
       </div>
       { showDetails && blogDetails() }
-    </div>  
+    </div>
   )
+}
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  updateLikes: PropTypes.func.isRequired,
+  deleteBlog: PropTypes.func.isRequired,
+  userId: PropTypes.string
 }
 
 

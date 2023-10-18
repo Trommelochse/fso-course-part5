@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 const BlogForm = ({ user, addBlog }) => {
 
@@ -46,11 +46,11 @@ const BlogForm = ({ user, addBlog }) => {
         </div>
         <div>
           <label style={labelStyle}>Author</label>
-          <input onChange={(e) => handleInputChange(e, setAuthor)} value={author} style={inputStyle}/>        
+          <input onChange={(e) => handleInputChange(e, setAuthor)} value={author} style={inputStyle}/>
         </div>
         <div>
           <label style={labelStyle}>URL</label>
-          <input onChange={(e) => handleInputChange(e, setUrl)} value={url} style={inputStyle}/>        
+          <input onChange={(e) => handleInputChange(e, setUrl)} value={url} style={inputStyle}/>
         </div>
         <input type="submit" className='primary' />
       </form>

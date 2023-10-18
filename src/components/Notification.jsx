@@ -1,9 +1,16 @@
-const Notification = ({notification}) => {
+const Notification = ({ notification }) => {
+  const highlightColor = notification.type === 'error' ? '#BF1A2F' : '#018E42'
   const style = {
-    color: notification.type === 'error' ? '#BF1A2F' : '#018E42',
-    padding: '20px 35px',
-    fontSize: 24,
-    backgroundColor: '#ffffff'
+    position: 'fixed',
+    top: 20,
+    left: 20,
+    width: 180,
+    border: '1px solid',
+    borderColor: highlightColor,
+    backgroundColor: '#fff',
+    color: highlightColor,
+    padding: '15px 20px',
+    borderRadius: 5
   }
 
   return (
