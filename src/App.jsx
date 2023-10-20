@@ -91,11 +91,11 @@ const App = () => {
         <form onSubmit={handleLoginSubmit}>
           <div>
             <label>Username</label>
-            <input value={username} onChange={(e) => handleInputChange(e, setUsername)} />
+            <input value={username} onChange={(e) => handleInputChange(e, setUsername)} id='username-input' />
           </div>
           <div>
             <label>Password</label>
-            <input type ="password" value={password} onChange={(e) => handleInputChange(e, setPassword)} />
+            <input type ="password" value={password} onChange={(e) => handleInputChange(e, setPassword)} id='password-input' />
           </div>
           <input type="submit" className='primary' value='Login'/>
         </form>
