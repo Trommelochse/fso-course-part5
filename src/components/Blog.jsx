@@ -65,7 +65,7 @@ const Blog = ({ blog, updateLikes, deleteBlog, userId }) => {
   }
 
   return (
-    <div style={ containerStyle }>
+    <div style={ containerStyle } className='blog-container'>
       <div style={titleContainerStyle}>
         <span style={titleStyle}>{blog.title}</span>
         <button onClick={toggleDetails}>{ showDetails ? 'Show less' : 'Show more' }</button>

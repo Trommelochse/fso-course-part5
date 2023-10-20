@@ -29,4 +29,31 @@ describe('Blog app', function() {
       cy.get('body').should('contain', 'Wrong Username or Password')
     })
   })
+
+  describe('When logged in', function() {
+
+    beforeEach(function() {
+      cy.request('POST', 'http://localhost:3003/api/login', credentials)
+        .then(response => {
+          localStorage.setItem('blogAppUser', JSON.stringify(response.body))
+          cy.visit('http://localhost:5173')
+        })
+    })
+
+    it('A blog can be created', function() {
+      const blog = {
+        title: 'recognizalbe',
+        author: 'jesus',
+        url: 'https://google.com'
+      }
+
+      cy.get('button.primary').click()
+      cy.get('input:first').type(blog.title)
+      cy.get('input:nth(1)').type(blog.author)
+      cy.get('input:nth(2)').type(blog.url)
+      cy.get('[type=submit]').click()
+
+      cy.get('.blog-container').should('contain', blog.title).and('contain', blog.author)
+    })
+  })
 })
