@@ -48,7 +48,7 @@ const Blog = ({ blog, updateLikes, deleteBlog, userId }) => {
 
   const blogDetails = () => {
     return (
-      <>
+      <div className='blog-details'>
         <div>
           <span><a href={blog.url}>{blog.url}</a></span>
         </div>
@@ -60,7 +60,7 @@ const Blog = ({ blog, updateLikes, deleteBlog, userId }) => {
           <span style={likesStyle}>Saved by {blog.user.name}</span>
         </div>
         { blog.user.id === userId && <button className='danger' onClick={handleDelete}>Delete</button>  }
-      </>
+      </div>
     )
   }
 

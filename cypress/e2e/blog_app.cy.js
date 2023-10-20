@@ -1,5 +1,6 @@
 describe('Blog app', function() {
   const credentials = { username: 'tester', password: 'pass' }
+
   beforeEach(function() {
     cy.request('POST', 'http://localhost:3003/api/testing/reset')
     cy.request('POST', 'http://localhost:3003/api/users', credentials)
@@ -40,9 +41,9 @@ describe('Blog app', function() {
         })
     })
 
-    it('A blog can be created', function() {
+    it('is possible to create a blog', function() {
       const blog = {
-        title: 'recognizalbe',
+        title: 'recognizable',
         author: 'jesus',
         url: 'https://google.com'
       }
@@ -54,6 +55,25 @@ describe('Blog app', function() {
       cy.get('[type=submit]').click()
 
       cy.get('.blog-container').should('contain', blog.title).and('contain', blog.author)
+    })
+
+    it('is possible to like a blog', function() {
+      const blog = {
+        title: 'blogtitle',
+        author: 'some dude',
+        url: 'https://google.com'
+      }
+
+      cy.get('button.primary').click()
+      cy.get('input:first').type(blog.title)
+      cy.get('input:nth(1)').type(blog.author)
+      cy.get('input:nth(2)').type(blog.url)
+      cy.get('[type=submit]').click()
+
+      cy.contains('Show more').click()
+      cy.contains('0 Likes')
+      cy.get('.blog-details button').contains('Like').click()
+      cy.contains('1 Likes')
     })
   })
 })
