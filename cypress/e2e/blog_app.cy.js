@@ -1,5 +1,6 @@
 describe('Blog app', function() {
   const credentials = { username: 'tester', password: 'pass' }
+  const credentials2 = { username: 'tester', password: 'pass' }
 
   beforeEach(function() {
     cy.request('POST', 'http://localhost:3003/api/testing/reset')
@@ -74,6 +75,24 @@ describe('Blog app', function() {
       cy.contains('0 Likes')
       cy.get('.blog-details button').contains('Like').click()
       cy.contains('1 Likes')
+    })
+
+    it('is possible to delete a blog', function() {
+      const blog = {
+        title: 'To be deleted',
+        author: 'nobody',
+        url: 'https://google.com'
+      }
+
+      cy.get('button.primary').click()
+      cy.get('input:first').type(blog.title)
+      cy.get('input:nth(1)').type(blog.author)
+      cy.get('input:nth(2)').type(blog.url)
+      cy.get('[type=submit]').click()
+
+      cy.contains('Show more').click()
+      cy.contains('Delete').click()
+      cy.get('.blog-container').should('not.exist')
     })
   })
 })
