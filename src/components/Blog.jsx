@@ -54,7 +54,7 @@ const Blog = ({ blog, updateLikes, deleteBlog, userId }) => {
         </div>
         <div>
           <span style={likesStyle}>{blog.likes} Likes.</span>
-          <button className="secondary" onClick={incrementLikes}>Like</button>
+          <button className='secondary' onClick={incrementLikes}>Like</button>
         </div>
         <div>
           <span style={likesStyle}>Saved by {blog.user.name}</span>
